@@ -1,15 +1,45 @@
+using Serilog;
+using Common.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog(SeriLogger.Configure);
 
-// Add services to the container.
+Log.Information("Start Order API up");
 
-builder.Services.AddControllers();
+try
+{
 
-var app = builder.Build();
+    // Add services to the container.
 
-// Configure the HTTP request pipeline.
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
 
-app.UseAuthorization();
+    var app = builder.Build();
 
-app.MapControllers();
+    // Configure the HTTP request pipeline.
 
-app.Run();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
+
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Unhandled Exception");
+}
+finally
+{
+    Log.Information("Shut down Product Order complete");
+    Log.CloseAndFlush();
+}
