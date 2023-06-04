@@ -32,7 +32,7 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.7
-    
+
 
 #network section
 networks:
@@ -58,3 +58,4 @@ volumes:
     name: mongo_data
   pgadmin_data:
     name: pgadmin_data
+
