@@ -1,15 +1,109 @@
 version: '3.8'
 
 services:
-  sqlserverdb:
-    container_name: sqlserverdb
+  orderdb:
+    container_name: orderdb
     environment:
         SA_PASSWORD: "Passw0rd!"
         ACCEPT_EULA: "Y"
     restart: always
     volumes:
-    - sqlserver_data:/var/lib/sqlserver/data
+        - sqlserver_data:/var/lib/sqlserver/data
     ports:
-    - "1435:1433"
-     
+        - "1435:1433"
   
+  productdb:
+    container_name: productdb
+    environment:
+        MYSQL_ROOT_PASSWORD: "Passw0rd!"
+        ACCEPT_EULA: "Y"
+    restart: always
+    volumes:
+        - mysql_data:/var/lib/mysql
+    ports:
+        - "3306:3306"
+
+  customerdb:
+    container_name: customerdb
+    environment:
+        - POSTGRES_USER=admin
+        - POSTGRES_PASSWORD=admin1234
+        - POSTGRES_DB=DiscountDb
+    restart: always
+    ports:
+        - "5433:5432"
+    volumes:
+        - postgres_data:/var/lib/postgresql/data
+         
+  basketdb:
+    container_name: basketdb
+    restart: always
+    ports:
+        - "6379:6379"
+
+  inventorydb:
+    container_name: inventorydb
+    restart: always
+    ports:
+        - "27017:27017" 
+    volumes:
+        - mongo_data:/data/db
+
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
+  pgadmin:
+    container_name: pgadmin
+    environment:
+        - PGADMIN_DEFAULT_EMAIL=giangthanhhai17@gmail.com
+        - PGADMIN_DEFAULT_PASSWORD=admin1234 
+    restart: always
+    ports:
+        - "5050:80"
+    volumes:
+        - pgadmin_data:/root/.pgadmin 
+
+  portainer:
+    container_name: portainer
+    restart: always
+    ports:
+        - "8080:8000"
+        - "9000:9000"
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock 
+        - portainer_data:/data 
+  
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+#      - xpack.security.enabled=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+#      - ELASTIC_USERNAME=elastic #default username
+#      - ELASTIC_PASSWORD=admin
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
+  kibana:
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+#      - ELASTICSEARCH_USERNAME=elastic
+#      - ELASTICSEARCH_PASSWORD=admin
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    #healthcheck:
+    #  test: curl -s http://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+    #  interval: 30s
+    #  timeout: 10s
+    #  retries: 5
