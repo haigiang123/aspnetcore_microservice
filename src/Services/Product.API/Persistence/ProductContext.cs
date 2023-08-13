@@ -11,7 +11,7 @@ namespace Product.API.Persistence
 
         }
 
-        DbSet<CatalogProduct> Products { get; set; }
+        public DbSet<CatalogProduct> Products { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
