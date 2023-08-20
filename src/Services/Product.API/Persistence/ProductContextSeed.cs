@@ -23,7 +23,7 @@ namespace Product.API.Persistence
             {
                 new CatalogProduct
                 {
-                    No = "Lotus",
+                    No = "Lotus 1",
                     Name = "Name 1",
                     Summary = "Summary 1",
                     Description = "Description 1",
@@ -31,7 +31,7 @@ namespace Product.API.Persistence
                 },
                 new CatalogProduct
                 {
-                    No = "Lotus",
+                    No = "Lotus 2",
                     Name = "Name 2",
                     Summary = "Summary 2",
                     Description = "Description 2",
