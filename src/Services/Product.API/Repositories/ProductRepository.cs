@@ -10,8 +10,8 @@ namespace Product.API.Repositories
     public class ProductRepository : RepositoryBaseAsync<CatalogProduct, long, ProductContext>, IProductRepository
     {
         public ProductRepository(ProductContext productContext, IUnitOfWork<ProductContext> unitOfWork) : base(productContext, unitOfWork)
-        { 
-        
+        {
+
         }
 
         public async Task CreateProduct(CatalogProduct product)
@@ -37,7 +37,7 @@ namespace Product.API.Repositories
 
         public async Task<CatalogProduct> GetProductByNo(string productNo)
         {
-            return await FindByCondition(x=>x.Equals(productNo)).SingleOrDefaultAsync();
+            return await FindByCondition(x => x.No.Equals(productNo)).FirstOrDefaultAsync();
         }
 
         public async Task UpdateProduct(CatalogProduct product)
