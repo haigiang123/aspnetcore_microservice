@@ -1,16 +1,25 @@
 using Serilog;
 using Common.Logging;
+using Basket.API.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog(SeriLogger.Configure);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-Log.Information("Start Basket API up");
+var builder = WebApplication.CreateBuilder(args);   
+
+Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    // Add Host Configuration
+    builder.Host.UseSerilog(SeriLogger.Configure);
+    builder.Host.AddAppConfiguration();
 
     // Add services to the container.
-
+    builder.Services.ConfigureServices();
+    builder.Services.ConfigureRedis(builder.Configuration);
+    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
