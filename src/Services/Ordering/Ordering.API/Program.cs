@@ -1,6 +1,7 @@
 using Serilog;
 using Common.Logging;
 using Ordering.Infrastructure;
+using Ordering.Infrastructure.Persistence;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -24,6 +25,13 @@ try
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+    }
+
+    using (var scope = app.Services.CreateAsyncScope())
+    {
+        var orderContextSeed = scope.ServiceProvider.GetRequiredService<OrderContextSeed>();
+        await orderContextSeed.InitializeAsync();
+        await orderContextSeed.SeedAsync();
     }
 
     app.MapControllers();
