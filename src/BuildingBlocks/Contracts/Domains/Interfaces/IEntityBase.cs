@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.Domains.Interfaces
 {
-    public class IEntityBase<T>
+    public interface IEntityBase<T>
     {
         public T Id { get; set; }
     }

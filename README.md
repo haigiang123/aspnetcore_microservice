@@ -30,4 +30,10 @@
 * Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.4"
 * Swashbuckle.AspNetCore" Version="6.3.1"
 
+## 5.1-8 OrderApi
+* Add, remove, update
+** dotnet ef migrations add "Init_OrderDb" --project Ordering.Infrastructure --startup-project Ordering.API --output-dir Persistence\Migrations
+** dotnet ef migrations remove "Init_OrderDb" --project Ordering.Infrastructure --startup-project Ordering.API
+** dotnet ef database update "Init_OrderDb" --project Ordering.Infrastructure --startup-project Ordering.API
+
 
