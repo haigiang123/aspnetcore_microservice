@@ -22,6 +22,7 @@ namespace Ordering.Infrastructure.Persistence
 
         public async Task TrySeedAsync(OrderContext context)
         {
+            _logger.Information($"Try Seed Data for {context.Database.ProviderName}");
             if(!context.Orders.Any())
             {
                 await context.Orders.AddRangeAsync(new Order
@@ -32,7 +33,8 @@ namespace Ordering.Infrastructure.Persistence
                     UserName = "username1",
                     TotalPrice = Convert.ToDecimal(456.23),
                     ShippingAddress = "Canada",
-                    InvoiceAddress = "Toronto"
+                    InvoiceAddress = "Toronto",
+                    Status = 0,
                 });
             }
         }

@@ -2,6 +2,7 @@ using Serilog;
 using Common.Logging;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
+using Ordering.Application;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -18,13 +19,16 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
     builder.Services.AddInfrastructureService(builder.Configuration);
+    builder.Services.AddApplicationServices();
 
     var app = builder.Build();
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c => 
+            c.SwaggerEndpoint(url:"/swagger/v1/swagger.json", name:"Swagger Order API V1"));
     }
 
     using (var scope = app.Services.CreateAsyncScope())

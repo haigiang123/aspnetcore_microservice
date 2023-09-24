@@ -33,7 +33,7 @@
 ## 5.1-8 OrderApi
 * Add, remove, update
 ** dotnet ef migrations add "Init_OrderDb" --project Ordering.Infrastructure --startup-project Ordering.API --output-dir Persistence\Migrations
-** dotnet ef migrations remove "Init_OrderDb" --project Ordering.Infrastructure --startup-project Ordering.API
+** dotnet ef migrations remove --project Ordering.Infrastructure --startup-project Ordering.API
 ** dotnet ef database update "Init_OrderDb" --project Ordering.Infrastructure --startup-project Ordering.API
 
 
