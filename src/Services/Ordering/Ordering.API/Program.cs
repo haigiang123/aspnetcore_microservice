@@ -3,6 +3,7 @@ using Common.Logging;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.Persistence;
 using Ordering.Application;
+using Ordering.API.Extensions;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -20,6 +21,8 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Host.AddAppConfigurations(builder.Configuration);
+    builder.Services.AddConfigurationSettings(builder.Configuration);
     builder.Services.AddInfrastructureService(builder.Configuration);
     builder.Services.AddApplicationServices();
 
