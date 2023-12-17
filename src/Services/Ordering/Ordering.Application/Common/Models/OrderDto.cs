@@ -18,7 +18,6 @@ namespace Ordering.Application.Common.Models
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
 
-
         public string ShippingAddress { get; set; }
         public string InvoiceAddress { get; set; }
         public string Status { get; set; }
