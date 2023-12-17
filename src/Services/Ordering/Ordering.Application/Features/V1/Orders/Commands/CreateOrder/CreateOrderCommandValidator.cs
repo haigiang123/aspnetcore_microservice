@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Domains.Interfaces
+namespace Ordering.Application.Features.V1.Orders.Commands.CreateOrder
 {
-    public interface IEntityBase<T>
+    internal class CreateOrderCommandValidator
     {
-        public T Id { get; set; }
     }
 }

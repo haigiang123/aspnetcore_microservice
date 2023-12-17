@@ -10,9 +10,14 @@ using System.Threading.Tasks;
 
 namespace Contracts.Common.Interfaces
 {
-    public interface IRepositoryQueryBase<T, K, IContext> 
+    public interface IRepositoryQueryBase<T, K, IContext> : IRepositoryQueryBase<T, K>
         where T : EntityBase<K>
         where IContext : DbContext
+    {
+
+    }
+
+    public interface IRepositoryQueryBase<T, in K> where T : EntityBase<K>
     {
         IQueryable<T> FindAll(bool trackChanges = false);
         IQueryable<T> FindAll(bool tracChanges = false, params Expression<Func<T, object>>[] incluseProperties);
@@ -23,9 +28,8 @@ namespace Contracts.Common.Interfaces
         Task<T?> GetByIdAsync(K id, Expression<Func<T, object>>[] includeProperties);
     }
 
-    public interface IRepositoryBaseAsync<T, K, TContext> : IRepositoryQueryBase<T, K, TContext>
+    public interface IRepositoryBaseAsync<T, K> : IRepositoryQueryBase<T, K>
         where T : EntityBase<K>
-        where TContext : DbContext
     {
         Task<K> CreateAsync(T entity);
         Task<IList<K>> CreateListAsync(IEnumerable<T> entities);
@@ -38,5 +42,12 @@ namespace Contracts.Common.Interfaces
         Task<IDbContextTransaction> BeginTransactionAsync();
         Task EndTransactionAsync();
         Task RollbackTransactionAsync();
+    }
+
+    public interface IRepositoryBaseAsync<T, K, TContext> : IRepositoryBaseAsync<T, K>
+        where T : EntityBase<K>
+        where TContext : DbContext
+    {
+
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Domains.Interfaces
+namespace Ordering.Domain.Enums
 {
-    public interface IEntityBase<T>
+    public enum EOrderStatus
     {
-        public T Id { get; set; }
+        New = 1,
     }
 }
